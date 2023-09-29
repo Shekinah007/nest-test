@@ -6,6 +6,7 @@ import { createCatDto } from 'src/dto/create-cat.dto';
 import { createUserDto } from 'src/dto/create-user.dto';
 import { User, Cat } from 'src/schema/user.schema';
 import { SignInDto } from './dto/signIn.dto';
+import { NotFoundError } from 'rxjs';
 
 
 @Injectable()
@@ -46,6 +47,10 @@ export class UserService {
     async getUserByUsername(username: string) {
         console.log("Get user")
         const user = await this.userModel.findOne({ username: username })
+        console.log("User: " + user)
+        if (user === null) {
+            throw new NotFoundError("User Does Not Exist");
+        }
         return user;
     }
 

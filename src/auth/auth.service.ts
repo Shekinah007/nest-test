@@ -12,6 +12,7 @@ export class AuthService {
     ) { }
 
     async signIn(username: string, pass: string) {
+        console.log("Hello")
         const user = await this.userService.getUserByUsername(username);
         console.log(user.password)
 
