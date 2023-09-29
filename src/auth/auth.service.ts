@@ -1,15 +1,23 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { registerDto } from 'src/user/dto/register.dto';
+import { UserService } from 'src/user/user.service';
 
 
 @Injectable()
 export class AuthService {
-    // signUp(re) {
-    //     return "Signed Up!"
-    // }
-    async signUp(registerUserDto: registerDto) {
-        const { username, password } = registerUserDto
+    constructor(private readonly userService: UserService) { }
 
-        // const salt = await bcrypt.genSalt();
+    async signIn(username: string, pass: string) {
+        const user = await this.userService.getUserByUsername(username);
+        console.log(user.password)
+
+        if (user?.password !== pass) {
+            throw new UnauthorizedException();
+        }
+
+        const { password, ...result } = user;
+
+        return result;
+
     }
 }

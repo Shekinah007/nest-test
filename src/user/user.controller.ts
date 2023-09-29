@@ -2,6 +2,8 @@ import { Controller, Get, Post, Body, ValidationPipe, UsePipes } from '@nestjs/c
 import { UserService } from './user.service';
 import { createUserDto } from 'src/dto/create-user.dto';
 import { createCatDto } from 'src/dto/create-cat.dto';
+import { SignInDto } from './dto/signIn.dto';
+import { sign } from 'crypto';
 
 @Controller('user')
 export class UserController {
@@ -24,4 +26,19 @@ export class UserController {
         console.log("In the controller");
         return this.userService.createCat(createCatDto)
     }
+
+
+
+    ////////////////////////////////////////////////////////////////
+
+    @Post("createNewUser")
+    createNewUser(@Body() user: createUserDto) {
+        return this.userService.createNewUser(user)
+    }
+
+    @Post("getUser")
+    getUser(@Body() signInDto: SignInDto) {
+        return this.userService.getUserByUsername(signInDto.username)
+    }
+
 }

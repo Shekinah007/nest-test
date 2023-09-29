@@ -5,6 +5,7 @@ import { Model } from 'mongoose';
 import { createCatDto } from 'src/dto/create-cat.dto';
 import { createUserDto } from 'src/dto/create-user.dto';
 import { User, Cat } from 'src/schema/user.schema';
+import { SignInDto } from './dto/signIn.dto';
 
 
 @Injectable()
@@ -27,6 +28,25 @@ export class UserService {
         const createdCat = new this.catModel(CreateCatDto);
         console.log("Cat created successfully: " + createdCat);
         return createdCat.save();
+    }
+
+    async createNewUser(createUserDto: createUserDto) {
+        const user = await new this.userModel(createUserDto);
+        console.log("User created successfully: " + user)
+        return user.save()
+
+    }
+
+    // async getUserByUserName(signInDto: SignInDto) {
+    //     console.log(signInDto)
+    //     const user = await this.userModel.find({ username: signInDto.username })
+    //     return user;
+    // }
+
+    async getUserByUsername(username: string) {
+        console.log("Get user")
+        const user = await this.userModel.findOne({ username: username })
+        return user;
     }
 
 
