@@ -17,6 +17,7 @@ export class AuthService {
 
         const { password, ...result } = user;
 
+        console.log("Logged In Successfully!");
         return result;
 
     }
